@@ -1,0 +1,8 @@
+.DS_STORE
+.idea
+composer.lock
+vendor
+public/images
+public/upload
+frontend/js/node_modules
+frontend/css/node_modules
