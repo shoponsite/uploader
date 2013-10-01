@@ -11,6 +11,8 @@ class Validator implements ValidatorInterface{
 
     const INVALID_MIME = 'MIME_ERROR';
     const INVALID_EXTENSION = 'EXTENSION_ERROR';
+    const INVALID_FILE_SIZE = 'INVALID_FILE_SIZE';
+
     /**
      * @var Config
      */
@@ -98,5 +100,19 @@ class Validator implements ValidatorInterface{
             }
         }
     }
+
+    protected function validateFilesize()
+    {
+        $maxFileSize = $this->config->getMaximumSize();
+
+        if($maxFileSize)
+        {
+            if($this->file->getSize() > $maxFileSize)
+            {
+                array_push($this->errors, STATIC::INVALID_FILE_SIZE);
+            }
+        }
+    }
+
 
 }

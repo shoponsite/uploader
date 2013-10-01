@@ -92,5 +92,21 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
         $this->assertContains(Validator::INVALID_MIME, $validator->errors());
     }
 
+    public function testInvalidFilesize()
+    {
+        $this->config->setMaximumSize('1B');
+        $validator = new Validator($this->config, $this->file);
+        $message = 'test failed for invalid filesize';
+        $this->assertFalse($validator->validate(), $message);
+        $this->assertCount(1, $validator->errors(), $message);
+        $this->assertContains(Validator::INVALID_FILE_SIZE, $validator->errors(), $message);
+    }
+
+    public function testValidFilesize()
+    {
+        $this->config->setMaximumSize('1M');
+        $validator = new Validator($this->config, $this->file);
+        $this->assertTrue($validator->validate());
+    }
 
 }
