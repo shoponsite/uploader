@@ -28,12 +28,12 @@ class ConfigDimensionsTest extends PHPUnit_Framework_TestCase {
     public function testSettingProperDimensions()
     {
         $this->config->setDimensions(array(
-            'maxHeight' => 400,
-            'maxWidth' => 400
+            'minHeight' => 400,
+            'minWidth' => 400
         ));
         $this->assertSame(array(
-            'maxHeight' => 400,
-            'maxWidth' => 400
+            'minHeight' => 400,
+            'minWidth' => 400
         ), $this->config->getDimensions(), 'failed setting dimensions with correct footprint');
     }
 

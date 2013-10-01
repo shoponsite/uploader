@@ -212,7 +212,7 @@ class Config implements ConfigInterface{
      */
     public function setDimensions(array $dimensions)
     {
-        if(!isset($dimensions['maxHeight']) || !isset($dimensions['maxWidth']) ||!is_int($dimensions['maxHeight']) || !is_int($dimensions['maxWidth']))
+        if(!isset($dimensions['minHeight']) || !isset($dimensions['minWidth']) ||!is_int($dimensions['minHeight']) || !is_int($dimensions['minWidth']))
         {
             throw new InvalidDimensionException('invalid dimensions provided');
         }
