@@ -46,4 +46,18 @@ interface ConfigInterface {
      * @return self
      */
     public function flushExtensions();
+
+
+    /**
+     * Set the maximum filesize
+     * @example $config->setMaximumSize('4M')
+     * @return self
+     */
+    public function setMaximumSize($filesize);
+
+    /**
+     * Returns the set maximum filesize
+     * @return string
+     */
+    public function getMaximumSize();
 }

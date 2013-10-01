@@ -16,6 +16,12 @@ class Config implements ConfigInterface{
      * @var array
      */
     protected $extensions = array();
+
+    /**
+     * @var int
+     */
+    protected $maxSize;
+
     /**
      * @param array|string $types
      * @example $config->setMimes(array('img/png', 'img/jpg'));
@@ -115,4 +121,47 @@ class Config implements ConfigInterface{
 
         return $this;
     }
+
+    /**
+     * Set the maximum filesize
+     * @example $config->setMaximumSize('4M')
+     * @return self
+     */
+    public function setMaximumSize($filesize)
+    {
+        preg_match_all('/^(\d+)(b|k|m|g)$/i', $filesize, $pieces);
+        $multiplier = $pieces[1][0];
+        $unit = $pieces[2][0];
+        if($multiplier && $unit)
+        {
+            switch(strtolower($unit))
+            {
+                case 'g':
+                    $this->maxSize = 1024 * 1024 * 1024 * $multiplier;
+                    break;
+                case 'm':
+                    $this->maxSize = 1024 * 1024 * $multiplier;
+                    break;
+                case 'k':
+                    $this->maxSize = 1024 * $multiplier;
+                    break;
+                case 'b':
+                    $this->maxSize =  $multiplier;
+                    break;
+            }
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * Returns the set maximum filesize
+     * @return string
+     */
+    public function getMaximumSize()
+    {
+        return $this->maxSize;
+    }
+
 }
