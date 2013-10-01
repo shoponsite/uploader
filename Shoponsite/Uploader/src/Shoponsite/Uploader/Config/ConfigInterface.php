@@ -26,4 +26,24 @@ interface ConfigInterface {
     public function flushMimes();
 
 
+
+    /**
+     * @param array|string $extensions
+     * @example $config->setExtensions(array('png', 'jpg'))
+     * @example $config->setExtensions('png')
+     * @return self
+     */
+    public function setExtensions($extensions);
+
+    /**
+     * Returns an array of supported extensions
+     * @return array
+     */
+    public function getExtensions();
+
+    /**
+     * Flushes all set extensions
+     * @return self
+     */
+    public function flushExtensions();
 }

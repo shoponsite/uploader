@@ -11,6 +11,11 @@ class Config implements ConfigInterface{
      * @var array
      */
     protected $mimes = array();
+
+    /**
+     * @var array
+     */
+    protected $extensions = array();
     /**
      * @param array|string $types
      * @example $config->setMimes(array('img/png', 'img/jpg'));
@@ -67,5 +72,47 @@ class Config implements ConfigInterface{
                 throw new InvalidMimeTypeException('You tried setting an invalid mime');
             }
         }
+    }
+
+    /**
+     * @param array|string $extensions
+     * @example $config->setExtensions(array('png', 'jpg'))
+     * @example $config->setExtensions('png')
+     * @return self
+     */
+    public function setExtensions($extensions)
+    {
+        if(is_string($extensions))
+        {
+            $extensions = array($extensions);
+        }
+
+        if(is_array($extensions))
+        {
+            $this->extensions = array_unique(array_merge($this->extensions, $extensions));
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * Returns an array of supported extensions
+     * @return array
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+
+    /**
+     * Flushes all set extensions
+     * @return self
+     */
+    public function flushExtensions()
+    {
+        $this->extensions = array();
+
+        return $this;
     }
 }
