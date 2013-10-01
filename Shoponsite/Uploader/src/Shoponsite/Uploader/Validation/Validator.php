@@ -5,9 +5,11 @@ namespace Shoponsite\Uploader\Validation;
 
 use Shoponsite\Uploader\Config\Config;
 use Shoponsite\Uploader\File\File;
+use finfo;
 
 class Validator implements ValidatorInterface{
 
+    const INVALID_MIME = 'MIME_ERROR';
     /**
      * @var Config
      */
@@ -17,6 +19,11 @@ class Validator implements ValidatorInterface{
      * @var File
      */
     protected $file;
+
+    /**
+     * @var finfo
+     */
+    protected $mimehelper;
 
     /**
      * @var array
@@ -57,5 +64,23 @@ class Validator implements ValidatorInterface{
         return $this->errors;
     }
 
+    /**
+     * Validate mime types, should pass when no mimes were specified
+     */
+    protected function validateMimes()
+    {
+        $mimes = $this->config->getMimes();
+
+        if($mimes)
+        {
+            $mime = $this->mimehelper->file($this->file->getPathname());
+
+            if(!in_array($mime, $mimes))
+            {
+                array_push($this->errors, STATIC::INVALID_MIME);
+            }
+        }
+
+    }
 
 }
