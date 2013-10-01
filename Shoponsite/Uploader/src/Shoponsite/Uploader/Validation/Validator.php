@@ -12,6 +12,7 @@ class Validator implements ValidatorInterface{
     const INVALID_MIME = 'MIME_ERROR';
     const INVALID_EXTENSION = 'EXTENSION_ERROR';
     const INVALID_FILE_SIZE = 'INVALID_FILE_SIZE';
+    const INVALID_DIMENSIONS = 'INVALID_DIMENSIONS';
 
     /**
      * @var Config
@@ -37,7 +38,8 @@ class Validator implements ValidatorInterface{
      * @param Config $config
      * @param File $file
      */
-    public function __construct(Config $config, File $file){
+    public function __construct(Config $config, File $file)
+    {
         $this->config = $config;
         $this->file = $file;
         $this->mimehelper = new finfo(FILEINFO_MIME_TYPE);
@@ -54,7 +56,8 @@ class Validator implements ValidatorInterface{
         $this->validateMimes();
         $this->validateExtensions();
         $this->validateFilesize();
-//        $this->validateDimensions();
+        $this->validateDimensions();
+
         return empty($this->errors);
     }
 
@@ -110,6 +113,21 @@ class Validator implements ValidatorInterface{
             if($this->file->getSize() > $maxFileSize)
             {
                 array_push($this->errors, STATIC::INVALID_FILE_SIZE);
+            }
+        }
+    }
+
+    protected function validateDimensions()
+    {
+        extract($this->config->getDimensions());
+
+        if(isset($minWidth) && isset($minHeight))
+        {
+            list($width, $height) = getimagesize($this->file->getPathname());
+
+            if($width < $minWidth || $height < $minHeight)
+            {
+                array_push($this->errors, static::INVALID_DIMENSIONS);
             }
         }
     }

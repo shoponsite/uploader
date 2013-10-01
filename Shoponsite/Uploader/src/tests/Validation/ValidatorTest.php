@@ -23,16 +23,18 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->path = getcwd() . '/src/tests/Assets/original_sample.txt';
-        $this->file = new File($this->path);
+        $this->base = getcwd() . '/src/tests/Assets';
+        $this->file = new File($this->base . '/original_sample.txt');
+        $this->image = new File($this->base . '/picture.jpg');
         $this->config = new Config();
     }
 
     public function tearDown()
     {
-        unset($this->path);
+        unset($this->base);
         unset($this->file);
         unset($this->config);
+        unset($this->image);
     }
 
     public function testMimes()
@@ -107,7 +109,30 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
     {
         $this->config->setMaximumSize('1M');
         $validator = new Validator($this->config, $this->file);
-        $this->assertTrue($validator->validate());
+        $this->assertTrue($validator->validate(), 'test failed for valid filesize');
+    }
+
+    public function testValidDimensions()
+    {
+        $this->config->setDimensions(array(
+            'minHeight' => 20,
+            'minWidth' => 20
+        ));
+        $validator = new Validator($this->config, $this->image);
+        $this->assertTrue($validator->validate(), 'test for valid image dimensions failed');
+    }
+
+    public function testInvalidDimensions()
+    {
+        $this->config->setDimensions(array(
+            'minHeight' => 20000,
+            'minWidth' => 20000
+        ));
+        $message = 'test for invalid image dimensions failed';
+        $validator = new Validator($this->config, $this->image);
+        $this->assertFalse($validator->validate(), $message);
+        $this->assertCount(1, $validator->errors(), $message);
+        $this->assertContains(Validator::INVALID_DIMENSIONS, $validator->errors(), $message);
     }
 
 }
