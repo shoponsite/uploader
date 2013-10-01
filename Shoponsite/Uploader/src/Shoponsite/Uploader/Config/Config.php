@@ -3,6 +3,7 @@
 namespace Shoponsite\Uploader\Config;
 
 use Shoponsite\Uploader\Exceptions\InvalidMimeTypeException;
+use Closure;
 
 
 class Config implements ConfigInterface{
@@ -21,6 +22,11 @@ class Config implements ConfigInterface{
      * @var int
      */
     protected $maxSize;
+
+    /**
+     * @var null|Closure
+     */
+    protected $callback;
 
     /**
      * @param array|string $types
@@ -164,4 +170,27 @@ class Config implements ConfigInterface{
         return $this->maxSize;
     }
 
+    /**
+     * Set the function that needs to be used by the uploader to rename the filename
+     * @param Closure $callback
+     * @return self
+     */
+    public function setFilenameParser(Closure $callback)
+    {
+        if(!$callback instanceof Closure){
+            throw new \InvalidArgumentException('you need to provide a decent filename parser');
+        }
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Return the filename parser closure callback
+     * @return Closure
+     */
+    public function getFilenameParser()
+    {
+        return $this->callback;
+    }
 }

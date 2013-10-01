@@ -2,6 +2,8 @@
 
 namespace Shoponsite\Uploader\Config;
 
+use Closure;
+
 
 interface ConfigInterface {
 
@@ -60,4 +62,18 @@ interface ConfigInterface {
      * @return string
      */
     public function getMaximumSize();
+
+
+    /**
+     * Set the function that needs to be used by the uploader to rename the filename
+     * @param Closure $callback
+     * @return self
+     */
+    public function setFilenameParser(Closure $callback);
+
+    /**
+     * Return the filename parser closure callback
+     * @return Closure
+     */
+    public function getFilenameParser();
 }
