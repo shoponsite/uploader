@@ -4,6 +4,7 @@ namespace Shoponsite\Uploader\Config;
 
 use Shoponsite\Uploader\Exceptions\InvalidDimensionException;
 use Shoponsite\Uploader\Exceptions\InvalidMimeTypeException;
+use Shoponsite\Uploader\File\File;
 use Closure;
 
 
@@ -33,6 +34,11 @@ class Config implements ConfigInterface{
      * @var null|array
      */
     protected $dimensions;
+
+    /**
+     * @var string
+     */
+    protected $uploadPath;
 
     /**
      * @param array|string $types
@@ -223,6 +229,27 @@ class Config implements ConfigInterface{
     public function getDimensions()
     {
         return $this->dimensions;
+    }
+
+    /**
+     * Set the endpath relative to the document root for the uploadfile
+     * @example $config->setUploadPath('/Upload/folders/1234/')
+     * @param string $path
+     * @return self
+     */
+    public function setUploadPath($path)
+    {
+        $this->uploadPath = new File($path);
+
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getUploadPath()
+    {
+        return $this->uploadPath;
     }
 
 

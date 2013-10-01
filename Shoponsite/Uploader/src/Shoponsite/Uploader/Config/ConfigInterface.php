@@ -91,6 +91,18 @@ interface ConfigInterface {
      */
     public function getDimensions();
 
+    /**
+     * Set the endpath relative to the document root for the uploadfile
+     * @example $config->setUploadPath('/Upload/folders/1234/')
+     * @param string $path
+     * @return self
+     */
+    public function setUploadPath($path);
+
+    /**
+     * @return File
+     */
+    public function getUploadPath();
 
 
 }
