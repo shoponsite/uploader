@@ -58,5 +58,28 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($validator->validate(), 'test failed when not setting mimes in config');
     }
 
+    public function testExtensionsPassWhenNoExtensionsSpecified()
+    {
+        $validator = new Validator($this->config, $this->file);
+        $this->assertTrue($validator->validate(), 'test failed when not setting extensions');
+    }
+
+    public function testInvalidExtension()
+    {
+        $this->config->setExtensions('png','jpg');
+        $validator = new Validator($this->config, $this->file);
+        $message = 'test failed when file has invalid extension';
+        $this->assertFalse($validator->validate(), $message);
+        $this->assertCount(1, $validator->errors(), $message);
+        $this->assertContains(Validator::INVALID_EXTENSION, $validator->errors(), $message);
+    }
+
+    public function testValidExtension()
+    {
+        $this->config->setExtensions(array('txt'));
+        $validator = new Validator($this->config, $this->file);
+        $this->assertTrue($validator->validate());
+    }
+
 
 }

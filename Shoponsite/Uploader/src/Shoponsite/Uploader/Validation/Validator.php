@@ -10,6 +10,7 @@ use finfo;
 class Validator implements ValidatorInterface{
 
     const INVALID_MIME = 'MIME_ERROR';
+    const INVALID_EXTENSION = 'EXTENSION_ERROR';
     /**
      * @var Config
      */
@@ -81,6 +82,21 @@ class Validator implements ValidatorInterface{
             }
         }
 
+    }
+
+    protected function validateExtensions()
+    {
+        $extensions = $this->config->getExtensions();
+
+        if($extensions)
+        {
+            $extension = $this->file->getExtension();
+
+            if(!in_array($extension, $extensions))
+            {
+                array_push($this->errors, STATIC::INVALID_EXTENSION);
+            }
+        }
     }
 
 }
