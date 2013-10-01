@@ -1,0 +1,15 @@
+{
+    "name" : "shoponsite/uploader",
+    "require":
+    {
+        "symfony-filesystem":"*"
+    },
+    "autoload":
+    {
+        "psr-0":
+        {
+            "Shoponsite\Uploader": "src/"
+        }
+    },
+    "minimum-stability" : "dev"
+}
