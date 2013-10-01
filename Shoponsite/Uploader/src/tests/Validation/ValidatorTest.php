@@ -86,10 +86,11 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
         $this->config->setMimes(array('img/png'))
            ->setExtensions(array('png'));
         $validator = new Validator($this->config, $this->file);
-        $this->assertFalse($validator->validate());
-        $this->assertCount(2, $validator->errors());
-        $this->assertContains(Validator::INVALID_MIME, $validator->errors());
-        $this->assertContains(Validator::INVALID_MIME, $validator->errors());
+        $message = 'test failed for multiple errors.';
+        $this->assertFalse($validator->validate(), $message);
+        $this->assertCount(2, $validator->errors(), $message);
+        $this->assertContains(Validator::INVALID_MIME, $validator->errors(), $message);
+        $this->assertContains(Validator::INVALID_MIME, $validator->errors(), $message);
     }
 
     public function testInvalidFilesize()
