@@ -27,7 +27,7 @@ class Config implements ConfigInterface{
     /**
      * @var null|Closure
      */
-    protected $callback;
+    protected $nameParser;
 
     /**
      * @var null|array
@@ -186,7 +186,7 @@ class Config implements ConfigInterface{
         if(!$callback instanceof Closure){
             throw new \InvalidArgumentException('you need to provide a decent filename parser');
         }
-        $this->callback = $callback;
+        $this->nameParser = $callback;
 
         return $this;
     }
@@ -197,7 +197,7 @@ class Config implements ConfigInterface{
      */
     public function getFilenameParser()
     {
-        return $this->callback;
+        return $this->nameParser;
     }
 
     /**
