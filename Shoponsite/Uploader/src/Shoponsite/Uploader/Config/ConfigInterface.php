@@ -76,4 +76,21 @@ interface ConfigInterface {
      * @return Closure
      */
     public function getFilenameParser();
+
+
+
+    /**
+     * Set the minimum dimensions for image mimetypes
+     * @return self
+     */
+    public function setDimensions(array $dimensions);
+
+    /**
+     * Return the minimum dimensions for image mimetypes
+     * @return array
+     */
+    public function getDimensions();
+
+
+
 }

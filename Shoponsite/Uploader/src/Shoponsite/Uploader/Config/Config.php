@@ -2,6 +2,7 @@
 
 namespace Shoponsite\Uploader\Config;
 
+use Shoponsite\Uploader\Exceptions\InvalidDimensionException;
 use Shoponsite\Uploader\Exceptions\InvalidMimeTypeException;
 use Closure;
 
@@ -27,6 +28,11 @@ class Config implements ConfigInterface{
      * @var null|Closure
      */
     protected $callback;
+
+    /**
+     * @var null|array
+     */
+    protected $dimensions;
 
     /**
      * @param array|string $types
@@ -193,4 +199,31 @@ class Config implements ConfigInterface{
     {
         return $this->callback;
     }
+
+    /**
+     * Set the minimum dimensions for image mimetypes
+     * @return self
+     */
+    public function setDimensions(array $dimensions)
+    {
+        if(!isset($dimensions['maxHeight']) || !isset($dimensions['maxWidth']) ||!is_int($dimensions['maxHeight']) || !is_int($dimensions['maxWidth']))
+        {
+            throw new InvalidDimensionException('invalid dimensions provided');
+        }
+
+        $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    /**
+     * Return the minimum dimensions for image mimetypes
+     * @return array
+     */
+    public function getDimensions()
+    {
+        return $this->dimensions;
+    }
+
+
 }
