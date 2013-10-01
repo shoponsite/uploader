@@ -31,9 +31,9 @@ class Config implements ConfigInterface{
     protected $nameParser;
 
     /**
-     * @var null|array
+     * @var array
      */
-    protected $dimensions;
+    protected $dimensions = array();
 
     /**
      * @var string
