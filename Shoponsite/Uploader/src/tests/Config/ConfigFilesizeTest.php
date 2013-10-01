@@ -26,6 +26,8 @@ class ConfigFilesizeTest extends PHPUnit_Framework_TestCase {
         $this->assertSame(6 * 1024 * 1024 * 1024, $this->config->getMaximumSize());
         $this->config->setMaximumSize('4K');
         $this->assertSame(4 * 1024, $this->config->getMaximumSize());
+        $this->config->setMaximumSize('4B');
+        $this->assertSame(4, $this->config->getMaximumSize());
     }
 
 }

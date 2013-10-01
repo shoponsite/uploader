@@ -164,7 +164,7 @@ class Config implements ConfigInterface{
                     $this->maxSize = 1024 * $multiplier;
                     break;
                 case 'b':
-                    $this->maxSize =  $multiplier;
+                    $this->maxSize = (int) $multiplier;
                     break;
             }
         }
