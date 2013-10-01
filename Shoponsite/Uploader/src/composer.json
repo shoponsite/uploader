@@ -2,13 +2,13 @@
     "name" : "shoponsite/uploader",
     "require":
     {
-        "symfony-filesystem":"*"
+        "symfony/filesystem":"*"
     },
     "autoload":
     {
         "psr-0":
         {
-            "Shoponsite\Uploader": "src/"
+            "Shoponsite\\Uploader": ""
         }
     },
     "minimum-stability" : "dev"
