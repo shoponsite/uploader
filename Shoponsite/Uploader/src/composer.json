@@ -2,7 +2,6 @@
     "name" : "shoponsite/uploader",
     "require":
     {
-        "symfony/filesystem":"*"
     },
     "autoload":
     {
