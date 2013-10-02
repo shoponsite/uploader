@@ -15,6 +15,11 @@ class Uploader implements UploaderInterface{
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $files = array();
+
+    /**
      * @param Config\Config $config
      */
     public function __construct(Config\Config $config)
@@ -58,6 +63,11 @@ class Uploader implements UploaderInterface{
         return $errors;
     }
 
+    public function files()
+    {
+        return $this->files;
+    }
+
     /**
      * Cleanup the file to no longer be a tmp filename.
      *
@@ -94,7 +104,9 @@ class Uploader implements UploaderInterface{
             $name = $parser($name);
         }
 
-        $storage->handle($file, $name);
+        $file = $storage->handle($file, $name);
+
+        array_push($this->files, $file);
     }
 
     protected function getOriginalName($uploadKey, $index = null)
