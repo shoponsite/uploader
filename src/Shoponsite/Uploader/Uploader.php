@@ -4,7 +4,6 @@ namespace Shoponsite\Uploader;
 
 use Shoponsite\Uploader\Storage\Filesystem;
 use Shoponsite\Uploader\Validation\Validator;
-use Shoponsite\Uploader\Validation\ValidatorInterface;
 
 class Uploader implements UploaderInterface{
 

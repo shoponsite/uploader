@@ -7,7 +7,7 @@
     {
         "psr-0":
         {
-            "Shoponsite\\Uploader": ""
+            "Shoponsite\\Uploader": "src/"
         }
     },
     "minimum-stability" : "dev"
