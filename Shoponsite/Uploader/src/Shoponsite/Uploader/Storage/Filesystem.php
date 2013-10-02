@@ -27,6 +27,7 @@ class Filesystem implements StorageInterface{
      */
     public function handle(File $file, $filename)
     {
+        $file->move($this->directory->getPathname() . '/' . $filename);
     }
 
     protected function verifyDirectory()
