@@ -5,6 +5,7 @@ namespace Shoponsite\Uploader;
 use Shoponsite\Uploader\Storage\Filesystem;
 use Shoponsite\Uploader\Validation\Validator;
 use Shoponsite\Uploader\File\File;
+use Closure;
 
 class Uploader implements UploaderInterface{
 
@@ -20,7 +21,6 @@ class Uploader implements UploaderInterface{
     {
         $this->config = $config;
     }
-
 
     /**
      * @return Upload
