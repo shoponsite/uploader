@@ -17,6 +17,7 @@ class Filesystem implements StorageInterface{
     public function __construct($directory)
     {
         $this->directory = new File($directory);
+        $this->verifyDirectory();
     }
 
     /**
@@ -28,5 +29,23 @@ class Filesystem implements StorageInterface{
     {
     }
 
+    protected function verifyDirectory()
+    {
+        if(!$this->directory->isDir())
+        {
+            return $this->makeDirectory(new File($this->directory->getPath()), $this->directory->getFilename());
+        }
+
+        return true;
+    }
+
+    protected function makeDirectory(File $dir, $directoryName)
+    {
+        if(!$dir->isDir())
+        {
+            $this->makeDirectory(new File($dir->getPath()), $dir->getFilename());
+        }
+        mkdir($dir->getPathname() . '/' . $directoryName);
+    }
 
 }
