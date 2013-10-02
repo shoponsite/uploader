@@ -50,7 +50,7 @@ class Uploader implements UploaderInterface{
     {
         $errors = array();
 
-        foreach($_FILES['name'] as $index => $name)
+        foreach($_FILES[$uploadKey]['name'] as $index => $name)
         {
             $errors[$index] = $this->upload($uploadKey, $index);
         }
