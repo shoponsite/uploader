@@ -57,7 +57,11 @@ class Uploader implements UploaderInterface{
 
         foreach($_FILES[$uploadKey]['name'] as $index => $name)
         {
-            $errors[$index] = $this->upload($uploadKey, $index);
+            $fileErrors = $this->upload($uploadKey, $index);
+            if(!empty($fileErrors))
+            {
+                $errors[$index] = $fileErrors;
+            }
         }
 
         return $errors;
