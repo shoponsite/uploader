@@ -25,9 +25,9 @@ class Uploader implements UploaderInterface{
     /**
      * @return Upload
      */
-    public function upload($uploadKey)
+    public function upload($uploadKey, $index = null)
     {
-        $file = $this->generateFile($uploadKey);
+        $file = $this->generateFile($uploadKey, $index);
 
         $validator = new Validator($this->config, $file);
 
@@ -48,7 +48,14 @@ class Uploader implements UploaderInterface{
      */
     public function multiUpload($uploadKey)
     {
-        // TODO: Implement multiUploader() method.
+        $errors = array();
+
+        foreach($_FILES['name'] as $index => $name)
+        {
+            $errors[$index] = $this->upload($uploadKey, $index);
+        }
+
+        return $errors;
     }
 
     /**
@@ -57,17 +64,27 @@ class Uploader implements UploaderInterface{
      * This will allow validation of extension used, because the tmp name does not have an extension
      *
      * @param $uploadKey
+     * @param $index
      * @return File
      */
-    protected function generateFile($uploadKey)
+    protected function generateFile($uploadKey, $index = null)
     {
-        $tmp = new File($_FILES[$uploadKey]['tmp_name']);
+        if(!$index)
+        {
+            $tmp = new File($_FILES[$uploadKey]['tmp_name']);
+            return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
+        }
+        else
+        {
+            $tmp = new File($_FILES[$uploadKey]['tmp_name'][$index]);
+            return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name'][$index]);
+        }
 
-        return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
     }
 
     protected function handle(File $file, $name)
     {
+
         $storage = new Filesystem($this->config->getUploadPath());
 
         $parser = $this->config->getFilenameParser();
