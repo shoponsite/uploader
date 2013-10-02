@@ -23,11 +23,11 @@ class Filesystem implements StorageInterface{
     /**
      * @param File $file
      * @param string $filename  The filename that will be used when putting the file in the $this->directory
-     * @return mixed
+     * @return File
      */
     public function handle(File $file, $filename)
     {
-        $file->move($this->directory->getPathname() . '/' . $filename);
+        return $file->move($this->directory->getPathname() . '/' . $filename);
     }
 
     protected function verifyDirectory()
