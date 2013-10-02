@@ -39,7 +39,7 @@ class Uploader implements UploaderInterface{
         }
         else
         {
-            $this->handle($file, $this->getOriginalName($uploadKey));
+            $this->handle($file, $this->getOriginalName($uploadKey, $index));
         }
     }
 
@@ -69,7 +69,7 @@ class Uploader implements UploaderInterface{
      */
     protected function generateFile($uploadKey, $index = null)
     {
-        if(!$index)
+        if($index === null)
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name']);
             return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
@@ -97,9 +97,15 @@ class Uploader implements UploaderInterface{
         $storage->handle($file, $name);
     }
 
-    protected function getOriginalName($uploadKey)
+    protected function getOriginalName($uploadKey, $index = null)
     {
-        return $_FILES[$uploadKey]['name'];
+        if($index === null){
+            return $_FILES[$uploadKey]['name'];
+        }
+        else
+        {
+            return $_FILES[$uploadKey]['name'][$index];
+        }
     }
 
     protected function cleanUp($file)
