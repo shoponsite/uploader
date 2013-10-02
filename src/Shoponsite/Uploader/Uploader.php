@@ -51,9 +51,19 @@ class Uploader implements UploaderInterface{
         // TODO: Implement multiUploader() method.
     }
 
+    /**
+     * Cleanup the file to no longer be a tmp filename.
+     *
+     * This will allow validation of extension used, because the tmp name does not have an extension
+     *
+     * @param $uploadKey
+     * @return File
+     */
     protected function generateFile($uploadKey)
     {
-        return new File($_FILES[$uploadKey]['tmp_name']);
+        $tmp = new File($_FILES[$uploadKey]['tmp_name']);
+
+        return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
     }
 
     protected function handle(File $file, $name)
