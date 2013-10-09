@@ -2,7 +2,14 @@
     "name" : "shoponsite/uploader",
     "require":
     {
+        "shoponsite/filesystem": "1.0.*"
     },
+    "repositories":[
+        {
+            "type":"vcs",
+            "url":"git@github.com:shoponsite/filesystem.git"
+        }
+    ],
     "autoload":
     {
         "psr-0":
