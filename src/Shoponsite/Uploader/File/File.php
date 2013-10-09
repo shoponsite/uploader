@@ -2,31 +2,13 @@
 
 namespace Shoponsite\Uploader\File;
 
-use SplFileInfo;
+use Shoponsite\Filesystem\File as FileBase;
 
-class File extends SplFileInfo implements FileInterface{
-
-    public function __construct($path)
-    {
-        parent::__construct($path);
-    }
-
-    /**
-     * @param string $path
-     * @return self
-     */
-    public function move($path)
-    {
-        $path = new SplFileInfo($path);
-        $dir = new SplFileInfo($path->getPath());
-        if(!$dir->isDir())
-        {
-            mkdir($dir->getPath() . '/' . $dir->getFilename());
-        }
-        rename($this->getPath() . '/' . $this->getFilename(), $path);
-
-        return new self($path);
-    }
-
+/**
+ * This is currently simply a wrapper as there might some need to add features specific to the upload module.
+ *
+ * @package Shoponsite\Uploader\File
+ */
+class File extends FileBase{
 
 }
