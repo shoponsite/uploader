@@ -23,7 +23,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->base = getcwd() . '/src/tests/Assets';
+        $this->base = getcwd() . '/tests/Assets';
         $this->file = new File($this->base . '/original_sample.txt');
         $this->image = new File($this->base . '/picture.jpg');
         $this->config = new Config();

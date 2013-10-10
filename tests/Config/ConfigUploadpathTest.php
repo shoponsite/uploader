@@ -7,7 +7,7 @@ class ConfigUploadpathTest extends PHPUnit_Framework_TestCase {
     public function testSetFilepath()
     {
         $config = new Config();
-        $path = getcwd() . '/src/tests/Assets/uploaddir';
+        $path = getcwd() . '/tests/Assets/uploaddir';
         $config->setUploadPath($path);
         $this->assertInstanceOf('Shoponsite\Uploader\File\File', $config->getUploadPath());
         $file = $config->getUploadPath();

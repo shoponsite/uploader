@@ -3,8 +3,9 @@
 namespace Shoponsite\Uploader\Storage;
 
 use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\Filesystem;
 
-class Filesystem implements StorageInterface{
+class Storagesystem implements StorageInterface{
 
     /**
      * @var File
@@ -12,12 +13,18 @@ class Filesystem implements StorageInterface{
     protected $directory;
 
     /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * @param File $directory    The destination directory that should be used.
      */
-    public function __construct($directory)
+    public function __construct($directory, Filesystem $system)
     {
         $this->directory = new File($directory);
         $this->verifyDirectory();
+        $this->filesystem = $system;
     }
 
     /**
@@ -27,7 +34,9 @@ class Filesystem implements StorageInterface{
      */
     public function handle(File $file, $filename)
     {
-        return $file->move($this->directory->getPathname() . '/' . $filename);
+        $file = $this->filesystem->move($file, $this->directory->getPathname());
+
+        return $this->filesystem->rename($file, $filename);
     }
 
     protected function verifyDirectory()

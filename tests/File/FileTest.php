@@ -1,21 +1,23 @@
 <?php
 
 use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\Filesystem;
 
 class FileTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $original = getcwd() . '/src/tests/Assets/original_sample.txt';
-        $this->path = getcwd() . '/src/tests/Assets/sample.txt';
+        $original = getcwd() . '/tests/Assets/original_sample.txt';
+        $this->path = getcwd() . '/tests/Assets/sample.txt';
         copy($original, $this->path);
     }
 
     public function tearDown()
     {
-        unlink($this->path);
-        if(is_dir(getcwd() . '/src/tests/Assets/falsedir/'))
-            rmdir(getcwd() . '/src/tests/Assets/falsedir/');
+        if(is_file($this->path))
+            unlink($this->path);
+        if(is_dir(getcwd() . '/tests/Assets/falsedir/'))
+            rmdir(getcwd() . '/tests/Assets/falsedir/');
     }
 
     public function testLoadingFileObject()
@@ -27,21 +29,22 @@ class FileTest extends PHPUnit_Framework_TestCase {
     public function testMovingFile()
     {
         $file = new File($this->path);
-        $this->path = getcwd() . '/src/tests/Assets/tmp_copy.txt';
-        $newfile = $file->move($this->path);
-        $tmp = new File($this->path);
-        $this->assertTrue($tmp->isFile());
-        $this->assertSame($this->path, $newfile->getPathname());
+        mkdir(getcwd() . '/tests/Assets/subdir');
+        $file = $file->move(new Filesystem(), getcwd() . '/tests/Assets/subdir');
+        $this->assertSame(getcwd() . '/tests/Assets/subdir', $file->getPath());
+        unlink($file->getPathname());
+        rmdir(getcwd() . '/tests/Assets/subdir');
     }
 
     public function testMovingFileIntoNonExistingDirectory()
     {
         $file = new File($this->path);
-        $this->path = getcwd() . '/src/tests/Assets/falsedir/tmp.txt';
-        $newfile = $file->move($this->path);
-        $tmp = new File($this->path);
-        $this->assertTrue($tmp->isFile());
-        $this->assertSame($this->path, $newfile->getPathname());
+        $file = $file->move(new Filesystem(), getcwd() . '/tests/Assets/falsedir');
+
+        $this->assertSame(getcwd() . '/tests/Assets/falsedir', $file->getPath());
+        $this->assertSame(getcwd() . '/tests/Assets/falsedir/sample.txt', $file->getPathname());
+
+        unlink($file->getPathname());
     }
 
 }
