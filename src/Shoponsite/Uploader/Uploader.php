@@ -5,6 +5,9 @@ namespace Shoponsite\Uploader;
 use Shoponsite\Uploader\Storage\Storagesystem;
 use Shoponsite\Uploader\Validation\Validator;
 use Shoponsite\Filesystem\File;
+use Shoponsite\Filesystem\Filesystem;
+use Shoponsite\Uploader\Storage\Grabber;
+use Shoponsite\Uploader\Config\Config;
 use Closure;
 
 class Uploader implements UploaderInterface{
@@ -20,11 +23,27 @@ class Uploader implements UploaderInterface{
     protected $files = array();
 
     /**
-     * @param Config\Config $config
+     * @var Filesystem
      */
-    public function __construct(Config\Config $config)
+    protected $filesystem;
+
+    /**
+     * @var Grabber
+     */
+    protected $grabber;
+
+    /**
+     * @param Config $config
+     * @param Filesystem $filesystem
+     * @param Grabber $grabber
+     */
+    public function __construct(Config $config, Filesystem $filesystem, Grabber $grabber)
     {
         $this->config = $config;
+
+        $this->filesystem = $filesystem;
+
+        $this->grabber = $grabber;
     }
 
     /**
@@ -32,7 +51,7 @@ class Uploader implements UploaderInterface{
      */
     public function upload($uploadKey, $index = null)
     {
-        $file = $this->generateFile($uploadKey, $index);
+        $file = $this->grabber->grab($this->filesystem, $uploadKey, $index);
 
         $validator = new Validator($this->config, $file);
 
@@ -44,7 +63,7 @@ class Uploader implements UploaderInterface{
         }
         else
         {
-            $this->handle($file, $this->getOriginalName($uploadKey, $index));
+            $this->handle($file, $this->grabber->originalName($uploadKey, $index));
         }
     }
 
@@ -72,30 +91,6 @@ class Uploader implements UploaderInterface{
         return $this->files;
     }
 
-    /**
-     * Cleanup the file to no longer be a tmp filename.
-     *
-     * This will allow validation of extension used, because the tmp name does not have an extension
-     *
-     * @param $uploadKey
-     * @param $index
-     * @return File
-     */
-    protected function generateFile($uploadKey, $index = null)
-    {
-        if($index === null)
-        {
-            $tmp = new File($_FILES[$uploadKey]['tmp_name']);
-            return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
-        }
-        else
-        {
-            $tmp = new File($_FILES[$uploadKey]['tmp_name'][$index]);
-            return $tmp->move($tmp->getPath() . '/' . $_FILES[$uploadKey]['name'][$index]);
-        }
-
-    }
-
     protected function handle(File $file, $name)
     {
 
@@ -111,17 +106,6 @@ class Uploader implements UploaderInterface{
         $file = $storage->handle($file, $name);
 
         array_push($this->files, $file);
-    }
-
-    protected function getOriginalName($uploadKey, $index = null)
-    {
-        if($index === null){
-            return $_FILES[$uploadKey]['name'];
-        }
-        else
-        {
-            return $_FILES[$uploadKey]['name'][$index];
-        }
     }
 
     protected function cleanUp($file)

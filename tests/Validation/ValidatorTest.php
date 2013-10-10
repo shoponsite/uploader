@@ -2,7 +2,7 @@
 
 use Shoponsite\Uploader\Validation\Validator;
 use Shoponsite\Uploader\Config\Config;
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 
 class ValidatorTest extends PHPUnit_Framework_TestCase {
 
