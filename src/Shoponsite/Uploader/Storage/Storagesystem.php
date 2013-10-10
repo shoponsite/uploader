@@ -18,13 +18,14 @@ class Storagesystem implements StorageInterface{
     protected $filesystem;
 
     /**
+     * @param Filesystem $system
      * @param File $directory    The destination directory that should be used.
      */
-    public function __construct($directory, Filesystem $system)
+    public function __construct(Filesystem $system, $directory)
     {
+        $this->filesystem = $system;
         $this->directory = new File($directory);
         $this->verifyDirectory();
-        $this->filesystem = $system;
     }
 
     /**
@@ -39,6 +40,11 @@ class Storagesystem implements StorageInterface{
         return $this->filesystem->rename($file, $filename);
     }
 
+    /**
+     * Check to see if directory already exists
+     * Create it if necessary.
+     * @return bool
+     */
     protected function verifyDirectory()
     {
         if(!$this->directory->isDir())
@@ -49,13 +55,18 @@ class Storagesystem implements StorageInterface{
         return true;
     }
 
+    /**
+     * @param File $dir
+     * @param $directoryName
+     */
     protected function makeDirectory(File $dir, $directoryName)
     {
         if(!$dir->isDir())
         {
             $this->makeDirectory(new File($dir->getPath()), $dir->getFilename());
         }
-        mkdir($dir->getPathname() . '/' . $directoryName);
+
+        return mkdir($dir->getPathname() . '/' . $directoryName);
     }
 
 }

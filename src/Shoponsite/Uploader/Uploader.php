@@ -2,7 +2,7 @@
 
 namespace Shoponsite\Uploader;
 
-use Shoponsite\Uploader\Storage\Filesystem;
+use Shoponsite\Uploader\Storage\Storagesystem;
 use Shoponsite\Uploader\Validation\Validator;
 use Shoponsite\Filesystem\File;
 use Closure;
@@ -99,7 +99,7 @@ class Uploader implements UploaderInterface{
     protected function handle(File $file, $name)
     {
 
-        $storage = new Filesystem($this->config->getUploadPath());
+        $storage = new Storagesystem($this->filesystem, $this->config->getUploadPath());
 
         $parser = $this->config->getFilenameParser();
 

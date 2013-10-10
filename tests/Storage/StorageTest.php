@@ -35,7 +35,7 @@ class StorageTest extends PHPUnit_Framework_TestCase {
     public function testDirCreationForNonExistingDirectory()
     {
         $path = getcwd() . '/tests/Assets/some/none/existing/dir';
-        $system = new Storagesystem($path, new Filesystem);
+        $system = new Storagesystem(new Filesystem, $path);
         $this->assertTrue(is_dir($path));
         rmdir(getcwd() . '/tests/Assets/some/none/existing/dir');
         rmdir(getcwd() . '/tests/Assets/some/none/existing');
@@ -45,7 +45,7 @@ class StorageTest extends PHPUnit_Framework_TestCase {
 
     public function testHandlingAnUpload()
     {
-        $storage = new Storagesystem(getcwd() . '/tests/Assets/storage', new Filesystem);
+        $storage = new Storagesystem(new Filesystem, getcwd() . '/tests/Assets/storage');
         $storage->handle($this->file, 'amazing_picture.jpg');
         $this->assertTrue(is_file(getcwd() . '/tests/Assets/storage/amazing_picture.jpg'));
     }

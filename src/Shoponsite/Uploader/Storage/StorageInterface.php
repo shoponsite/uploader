@@ -8,9 +8,10 @@ use Shoponsite\Filesystem\Filesystem;
 interface StorageInterface {
 
     /**
+     * @param Filesystem $system
      * @param File $directory    The destination directory that should be used.
      */
-    public function __construct($directory, Filesystem $filesystem);
+    public function __construct(Filesystem $filesystem, $directory);
 
     /**
      * @param File $file

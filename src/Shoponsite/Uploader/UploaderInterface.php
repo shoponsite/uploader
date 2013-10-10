@@ -2,9 +2,18 @@
 
 namespace Shoponsite\Uploader;
 
+use Shoponsite\Filesystem\Filesystem;
+use Shoponsite\Uploader\Storage\Grabber;
+use Shoponsite\Uploader\Config\Config;
+
 interface UploaderInterface {
 
-    public function __construct(Config\Config $config);
+    /**
+     * @param Config $config
+     * @param Filesystem $filesystem
+     * @param Grabber $grabber
+     */
+    public function __construct(Config $config, Filesystem $filesystem, Grabber $grabber);
 
     /**
      * @return bool
