@@ -4,7 +4,7 @@ namespace Shoponsite\Uploader\Config;
 
 use Shoponsite\Uploader\Exceptions\InvalidDimensionException;
 use Shoponsite\Uploader\Exceptions\InvalidMimeTypeException;
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 use Closure;
 
 

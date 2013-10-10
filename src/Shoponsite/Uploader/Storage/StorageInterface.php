@@ -2,7 +2,7 @@
 
 namespace Shoponsite\Uploader\Storage;
 
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 use Shoponsite\Filesystem\Filesystem;
 
 interface StorageInterface {

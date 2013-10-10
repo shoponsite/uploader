@@ -1,7 +1,7 @@
 <?php
 
 use Shoponsite\Uploader\Storage\Storagesystem;
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 use Shoponsite\Filesystem\Filesystem;
 
 /**

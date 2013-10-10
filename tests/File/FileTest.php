@@ -1,6 +1,6 @@
 <?php
 
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 use Shoponsite\Filesystem\Filesystem;
 
 class FileTest extends PHPUnit_Framework_TestCase {

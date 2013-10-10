@@ -4,7 +4,7 @@ namespace Shoponsite\Uploader\Validation;
 
 
 use Shoponsite\Uploader\Config\Config;
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 use finfo;
 
 class Validator implements ValidatorInterface{

@@ -3,7 +3,7 @@
 namespace Shoponsite\Uploader\Validation;
 
 use Shoponsite\Uploader\Config\Config;
-use Shoponsite\Uploader\File\File;
+use Shoponsite\Filesystem\File;
 
 interface ValidatorInterface {
 
