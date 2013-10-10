@@ -22,13 +22,13 @@ class Grabber implements GrabberInterface{
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name']);
             $file = $tmp->move($system, $tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
-            return $file->rename($_FILES[$uploadKey]['name']);
+            return $system->rename($file, $_FILES[$uploadKey]['name']);
         }
         else
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name'][$index]);
             $file = $tmp->move($system, $tmp->getPath());
-            return $file->rename($_FILES[$uploadKey]['name'][$index]);
+            return $system->rename($file, $_FILES[$uploadKey]['name'][$index]);
         }
     }
 
