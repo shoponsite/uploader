@@ -79,7 +79,7 @@ class Uploader implements UploaderInterface{
             $fileErrors = $this->upload($uploadKey, $index);
             if(!empty($fileErrors))
             {
-                $errors[$this->getOriginalName($uploadKey, $index)] = $fileErrors;
+                $errors[$this->grabber->originalName($uploadKey, $index)] = $fileErrors;
             }
         }
 
