@@ -1,5 +1,6 @@
 {
     "name" : "shoponsite/uploader",
+    "version":"1.0.0",
     "require":
     {
         "shoponsite/filesystem": "1.0.*"
