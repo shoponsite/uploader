@@ -21,14 +21,15 @@ class Grabber implements GrabberInterface{
         if($index === null)
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name']);
-            return $tmp->move($system, $tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
+            $file = $tmp->move($system, $tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
+            return $file->rename($_FILES[$uploadKey]['name']);
         }
         else
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name'][$index]);
-            return $tmp->move($system, $tmp->getPath() . '/' . $_FILES[$uploadKey]['name'][$index]);
+            $file = $tmp->move($system, $tmp->getPath());
+            return $file->rename($_FILES[$uploadKey]['name'][$index]);
         }
-
     }
 
     public function originalName($uploadKey, $index = null)
