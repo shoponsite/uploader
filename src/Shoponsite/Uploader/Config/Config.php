@@ -272,10 +272,9 @@ class Config implements ConfigInterface{
     protected function defaultParser()
     {
         return function($name){
-            $name = str_replace(array(
-                array('/', ',', '(', ')', ':', '!', "'", '&'),
-                array(' ')
-            ), array('', '-'), $name);
+            $name = str_replace(array('/', ',', '(', ')', ':', '!', "'", '&'), array(''), $name);
+
+            $name = str_replace(array(' '), array('-'), $name);
 
             return $name;
         };
