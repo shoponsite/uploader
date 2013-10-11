@@ -19,15 +19,22 @@ class ConfigFilenameParserTest extends PHPUnit_Framework_TestCase {
         unset($this->config);
     }
 
-    public function testSettingCallback()
+    public function testSettingNoCallbackGivesADefaultParser()
     {
-        $this->config->setFilenameParser(function()
+        $method = $this->config->getFilenameParser();
+        $this->assertInstanceOf('Closure', $method);
+        $this->assertSame('test', $method('test'));
+    }
+
+    public function testSettingCallbackBecomesWrappedInDefaultParser()
+    {
+        $this->config->setFilenameParser(function($name)
         {
-            echo 'test';
+            echo $name;
         });
         $method = $this->config->getFilenameParser();
         $this->assertInstanceOf('Closure', $method);
-        $this->expectOutputString('test', $method());
+        $this->expectOutputString('test', $method('test'));
     }
 
 }

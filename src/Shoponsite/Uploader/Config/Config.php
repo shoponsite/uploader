@@ -192,6 +192,7 @@ class Config implements ConfigInterface{
         if(!$callback instanceof Closure){
             throw new \InvalidArgumentException('you need to provide a decent filename parser');
         }
+
         $this->nameParser = $callback;
 
         return $this;
@@ -203,7 +204,23 @@ class Config implements ConfigInterface{
      */
     public function getFilenameParser()
     {
-        return $this->nameParser;
+        $callback = $this->nameParser;
+
+        $defaultParser = $this->defaultParser();
+
+        //wrap the current callback into a closure to provide a default name parser to clean the filename
+        return function($name, $counter = null) use ($callback, $defaultParser){
+
+            $name = $defaultParser($name);
+
+            if($callback instanceof Closure)
+            {
+                return $callback($name, $counter);
+            }
+
+            return $name;
+
+        };
     }
 
     /**
@@ -250,6 +267,18 @@ class Config implements ConfigInterface{
     public function getUploadPath()
     {
         return $this->uploadPath;
+    }
+
+    protected function defaultParser()
+    {
+        return function($name){
+            $name = str_replace(array(
+                array('/', ',', '(', ')', ':', '!', "'", '&'),
+                array(' ')
+            ), array('', '-'), $name);
+
+            return $name;
+        };
     }
 
 
