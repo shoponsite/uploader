@@ -63,7 +63,7 @@ class Uploader implements UploaderInterface{
         }
         else
         {
-            $this->handle($file, $this->grabber->originalName($uploadKey, $index));
+            $this->handle($file, $this->grabber->originalName($uploadKey, $index), $index);
         }
     }
 
@@ -91,7 +91,7 @@ class Uploader implements UploaderInterface{
         return $this->files;
     }
 
-    protected function handle(File $file, $name)
+    protected function handle(File $file, $name, $index = null)
     {
 
         $storage = new Storagesystem($this->filesystem, $this->config->getUploadPath());
@@ -100,7 +100,14 @@ class Uploader implements UploaderInterface{
 
         if($parser && $parser instanceof Closure)
         {
-            $name = $parser($name);
+            if($index)
+            {
+                $name = $parser($name, $index + 1);
+            }
+            else
+            {
+                $name = $parser($name);
+            }
         }
 
         $file = $storage->handle($file, $name);
