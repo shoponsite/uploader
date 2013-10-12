@@ -5,7 +5,8 @@ namespace Shoponsite\Uploader\Storage;
 use Shoponsite\Filesystem\File;
 use Shoponsite\Filesystem\Filesystem;
 
-class Grabber implements GrabberInterface{
+class Grabber implements GrabberInterface
+{
 
     /**
      * Cleanup the file to no longer be a tmp filename.
@@ -18,23 +19,28 @@ class Grabber implements GrabberInterface{
      */
     public function grab(Filesystem $system, $uploadKey, $index = null)
     {
-        if($index === null)
+        if ($index === null)
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name']);
-            $file = $tmp->move($system, $tmp->getPath() . '/' . $_FILES[$uploadKey]['name']);
-            return $system->rename($file, $_FILES[$uploadKey]['name']);
+
+            $name = $_FILES[$uploadKey]['name'];
         }
         else
         {
             $tmp = new File($_FILES[$uploadKey]['tmp_name'][$index]);
-            $file = $tmp->move($system, $tmp->getPath());
-            return $system->rename($file, $_FILES[$uploadKey]['name'][$index]);
+
+            $name = $_FILES[$uploadKey]['name'][$index];
         }
+
+        $file = $tmp->move($system, $tmp->getPath());
+
+        return $system->rename($file, $name);
     }
 
     public function originalName($uploadKey, $index = null)
     {
-        if($index === null){
+        if ($index === null)
+        {
             return $_FILES[$uploadKey]['name'];
         }
         else
