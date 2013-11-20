@@ -100,7 +100,7 @@ class Uploader implements UploaderInterface{
 
         if($parser && $parser instanceof Closure)
         {
-            if($index)
+            if($index !== null)
             {
                 $name = $parser($name, $index + 1);
             }
