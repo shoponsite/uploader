@@ -17,5 +17,5 @@
             "Shoponsite\\Uploader": "src/"
         }
     },
-    "minimum-stability" : "stable",
+    "minimum-stability" : "stable"
 }
