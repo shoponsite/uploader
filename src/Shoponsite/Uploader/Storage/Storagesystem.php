@@ -29,6 +29,10 @@ class Storagesystem implements StorageInterface{
     }
 
     /**
+     * We also chmod the file here to a sane default.
+     * We do not need group rights to be able to access the files through ftp.
+     * The images and upload folder shouldn't really be used in that manner.
+     *
      * @param File $file
      * @param string $filename  The filename that will be used when putting the file in the $this->directory
      * @return File
@@ -36,6 +40,8 @@ class Storagesystem implements StorageInterface{
     public function handle(File $file, $filename)
     {
         $file = $this->filesystem->move($file, $this->directory->getPathname());
+
+        $this->filesystem->chmod($file, 0666 & ~umask());
 
         return $this->filesystem->rename($file, $filename);
     }
